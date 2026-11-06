@@ -1,16 +1,98 @@
-body { padding: 0; margin: 0 }
-#unity-container { position: absolute }
-#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
-#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
-#unity-canvas { background: #231F20 }
-.unity-mobile #unity-canvas { width: 100%; height: 100% }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center }
-#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
-#unity-footer { position: relative }
-.unity-mobile #unity-footer { display: none }
-#unity-logo-title-footer { float:left; width: 102px; height: 38px; background: url('unity-logo-title-footer.png') no-repeat center }
-#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
-#unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+/* Full-viewport layout for the ZombieRush WebGL build.
+   The built-in Default template centres a fixed 1280x720 canvas, which forces
+   the browser to scale the image up on larger displays. Everything here exists
+   to make the canvas fill the window so Unity renders at native resolution. */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0b0f12;
+}
+
+#unity-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #0b0f12;
+}
+
+#unity-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #0b0f12;
+  outline: none;
+  /* Stops iOS/Android from showing a grey flash on tap. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- loading bar ------------------------------------------------------- */
+
+#unity-loading-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#unity-progress-bar-empty {
+  width: min(240px, 40vw);
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+#unity-progress-bar-full {
+  width: 0%;
+  height: 100%;
+  border-radius: 4px;
+  background: #7fc35b;
+  transition: width 0.2s ease-out;
+}
+
+/* ---- warning ribbon ---------------------------------------------------- */
+
+#unity-warning {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  display: none;
+  z-index: 10;
+}
+
+/* ---- toolbar ----------------------------------------------------------- */
+
+#unity-toolbar {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+}
+
+#unity-fullscreen-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity 0.15s ease-out;
+}
+
+#unity-toolbar:hover #unity-fullscreen-button {
+  opacity: 1;
+}
